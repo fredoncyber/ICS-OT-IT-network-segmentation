@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "site": "synthetic-plant",
+  "zones": [
+    {
+      "id": "CorpIT",
+      "role": "enterprise",
+      "cidr": "10.100.0.0/24",
+      "owner": "IT lead"
+    },
+    {
+      "id": "IDMZ",
+      "role": "idmz",
+      "cidr": "10.200.0.0/24",
+      "owner": "network engineering"
+    },
+    {
+      "id": "Operations",
+      "role": "operations",
+      "cidr": "10.50.0.0/24",
+      "owner": "OT lead"
+    },
+    {
+      "id": "Supervisory",
+      "role": "supervisory",
+      "cidr": "10.20.0.0/24",
+      "owner": "control engineering"
+    },
+    {
+      "id": "CellA",
+      "role": "control",
+      "cidr": "10.10.0.0/24",
+      "owner": "process owner"
+    },
+    {
+      "id": "Safety",
+      "role": "safety",
+      "cidr": "10.11.0.0/24",
+      "owner": "safety engineer"
+    }
+  ],
+  "conduits": [
+    {
+      "source": "CorpIT",
+      "destination": "IDMZ",
+      "protocol": "tcp",
+      "port": 443,
+      "status": "approved",
+      "change_id": "CHG-2001",
+      "justification": "Enterprise user access to staged IDMZ service",
+      "review_by": "2028-01-01"
+    },
+    {
+      "source": "Operations",
+      "destination": "Supervisory",
+      "protocol": "tcp",
+      "port": 443,
+      "status": "approved",
+      "change_id": "CHG-2002",
+      "justification": "Synthetic plant management application endpoint",
+      "review_by": "2028-01-01"
+    },
+    {
+      "source": "Supervisory",
+      "destination": "CellA",
+      "protocol": "tcp",
+      "port": 502,
+      "status": "approved",
+      "change_id": "CHG-2003",
+      "justification": "Synthetic approved plant control communication",
+      "review_by": "2028-01-01"
+    }
+  ]
+}

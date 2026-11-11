@@ -1,0 +1,35 @@
+---
+# LAB ONLY. Render by default. Do not target production OT or management hosts.
+- name: Generate and optionally apply reviewed nftables sample on isolated Linux lab VM
+  hosts: lab_firewalls
+  become: true
+  gather_facts: false
+  vars:
+    apply_firewall: false
+    change_approved: false
+    out_of_band_recovery: false
+    nft_reference_path: "/tmp/segmentation-review.nft"
+  tasks:
+    - name: Require explicit independent approvals to apply
+      ansible.builtin.assert:
+        that:
+          - not (apply_firewall | bool) or ((change_approved | bool) and (out_of_band_recovery | bool))
+        fail_msg: "Refusing activation without change approval and out-of-band recovery."
+    - name: Render synthetic example firewall into /tmp review artifact
+      ansible.builtin.template:
+        src: "../templates/nftables-idmz.j2"
+        dest: "{{ nft_reference_path }}"
+        mode: "0600"
+    - name: Syntax-check (does not apply)
+      ansible.builtin.command:
+        cmd: "nft -c -f {{ nft_reference_path }}"
+      changed_when: false
+    - name: Activate explicitly approved lab-only rules
+      ansible.builtin.command:
+        cmd: "nft -f {{ nft_reference_path }}"
+      when:
+        - apply_firewall | bool
+        - change_approved | bool
+        - out_of_band_recovery | bool
+      changed_when: true
+

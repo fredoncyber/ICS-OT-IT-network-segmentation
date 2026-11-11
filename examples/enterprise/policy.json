@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "site": "synthetic-enterprise-site-A",
+  "zones": [
+    {
+      "id": "Enterprise",
+      "role": "enterprise",
+      "cidr": "10.110.0.0/24",
+      "owner": "enterprise IT"
+    },
+    {
+      "id": "SiteIDMZ",
+      "role": "idmz",
+      "cidr": "10.210.0.0/24",
+      "owner": "site networking"
+    },
+    {
+      "id": "SiteOps",
+      "role": "operations",
+      "cidr": "10.60.0.0/24",
+      "owner": "OT operations"
+    },
+    {
+      "id": "ProcessA",
+      "role": "control",
+      "cidr": "10.12.0.0/24",
+      "owner": "process owner"
+    },
+    {
+      "id": "SafetyA",
+      "role": "safety",
+      "cidr": "10.13.0.0/24",
+      "owner": "functional safety"
+    }
+  ],
+  "conduits": [
+    {
+      "source": "Enterprise",
+      "destination": "SiteIDMZ",
+      "protocol": "tcp",
+      "port": 443,
+      "status": "approved",
+      "change_id": "CHG-3001",
+      "justification": "Controlled published application to site IDMZ",
+      "review_by": "2028-01-01"
+    },
+    {
+      "source": "SiteOps",
+      "destination": "ProcessA",
+      "protocol": "tcp",
+      "port": 502,
+      "status": "approved",
+      "change_id": "CHG-3002",
+      "justification": "Synthetic site process polling conduit",
+      "review_by": "2028-01-01"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "site": "synthetic-basic",
+  "zones": [
+    {
+      "id": "CorpIT",
+      "role": "enterprise",
+      "cidr": "10.100.0.0/24",
+      "owner": "IT lead"
+    },
+    {
+      "id": "PlantOps",
+      "role": "operations",
+      "cidr": "10.50.0.0/24",
+      "owner": "OT lead"
+    },
+    {
+      "id": "Field",
+      "role": "control",
+      "cidr": "10.10.0.0/24",
+      "owner": "process owner"
+    }
+  ],
+  "conduits": [
+    {
+      "source": "PlantOps",
+      "destination": "Field",
+      "protocol": "tcp",
+      "port": 502,
+      "status": "approved",
+      "change_id": "CHG-1001",
+      "justification": "Scoped synthetic polling from operations",
+      "review_by": "2028-01-01"
+    }
+  ]
+}
