@@ -1,0 +1,25 @@
+name: Validate segmentation policy
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  offline-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate sample profiles
+        run: |
+          python -m segmentation validate --policy examples/basic/policy.json
+          python -m segmentation validate --policy examples/plant/policy.json
+          python -m segmentation validate --policy examples/enterprise/policy.json
+      - name: Render sample rules as artifact (never deploy)
+        run: python -m segmentation render --policy examples/plant/policy.json --output /tmp/segmentation.nft
+

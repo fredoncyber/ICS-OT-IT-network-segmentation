@@ -1,0 +1,20 @@
+---
+# SAFE AUDIT ONLY: does not modify the remote host.
+- name: Inspect jumpbox baseline configuration on authorized lab hosts
+  hosts: lab_jumpboxes
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Read effective SSH server configuration (non-mutating)
+      ansible.builtin.command:
+        cmd: sshd -T
+      register: ssh_config
+      changed_when: false
+      check_mode: false
+    - name: Display baseline conditions for manual review
+      ansible.builtin.debug:
+        msg: >-
+          Review SSH passwordauthentication, permitrootlogin, session logging,
+          MFA at gateway, patch status, allowlisted access and system backup.
+          This playbook does not claim or apply hardening.
+

@@ -1,0 +1,10 @@
+# LAB ONLY. The forwarding example is intentionally deny-all.
+# DO NOT install without out-of-band rescue and approved test environment.
+table inet ot_lab_boundary {
+  chain forward {
+    type filter hook forward priority 0; policy drop;
+    ct state invalid drop
+    ct state established,related accept
+  }
+}
+
